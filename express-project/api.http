@@ -11,3 +11,6 @@ Content-Type: application/json
 {
     "name": "Marie Curie"
 }
+
+### Get messages
+GET http://localhost:3000/messages
