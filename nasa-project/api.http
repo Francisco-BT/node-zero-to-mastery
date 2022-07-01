@@ -1,0 +1,2 @@
+### Get launches
+GET http://localhost:8000/launches
