@@ -1,2 +1,13 @@
 ### Get launches
 GET http://localhost:8000/launches
+
+### Add a new launch
+POST http://localhost:8000/launches
+Content-Type: application/json
+
+{
+    "mission": "ZTM155",
+    "rocket": "ZTM Experimental IS1",
+    "destination": "Kepler-186 f",
+    "launchDate": "January 17, 2030"
+}
