@@ -11,7 +11,7 @@ function httpAddNewLaunche(req, res) {
     !launch.mission ||
     !launch.rocket ||
     !launch.launchDate ||
-    !launch.destination
+    !launch.target
   ) {
     return res.status(400).json({
       error: "Mising require launch property",
