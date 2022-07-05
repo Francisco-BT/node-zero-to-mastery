@@ -8,6 +8,9 @@ Content-Type: application/json
 {
     "mission": "ZTM155",
     "rocket": "ZTM Experimental IS1",
-    "destination": "Kepler-186 f",
+    "target": "Kepler-186 f",
     "launchDate": "January 17, 2030"
 }
+
+### Abort a launch
+DELETE http://localhost:8000/launches/100
