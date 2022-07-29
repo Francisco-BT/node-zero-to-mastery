@@ -8,7 +8,7 @@ Content-Type: application/json
 {
     "mission": "ZTM155",
     "rocket": "ZTM Experimental IS1",
-    "target": "Kepler-186 f",
+    "target": "Kepler-1652 b",
     "launchDate": "January 17, 2030"
 }
 

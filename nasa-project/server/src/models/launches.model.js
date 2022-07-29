@@ -1,4 +1,5 @@
 const launchesDatabase = require('./launches.mongo');
+const planets = require('./planets.mongo');
 
 const launches = new Map();
 
@@ -26,19 +27,6 @@ async function getAllLaunches() {
   );
 }
 
-function addNewLaunch(launch) {
-  latestFlightNumber++;
-  launches.set(
-    latestFlightNumber,
-    Object.assign(launch, {
-      flightNumber: latestFlightNumber,
-      customer: ['Zero to Mastery', 'NASA'],
-      upcoming: true,
-      success: true,
-    }),
-  );
-}
-
 function existLaunchWithId(launchId) {
   console.log(launches);
   return launches.has(launchId);
@@ -53,6 +41,14 @@ function abortLaunchById(launchId) {
 }
 
 async function saveLaunch(launch) {
+  const planet = await planets.findOne({
+    keplerName: launch.target,
+  });
+
+  if (!planet) {
+    throw new Error('No matching planet was found!');
+  }
+
   await launchesDatabase.updateOne(
     {
       flightNumber: launch.flightNumber,
@@ -66,5 +62,5 @@ module.exports = {
   existLaunchWithId,
   abortLaunchById,
   getAllLaunches,
-  addNewLaunch,
+  saveLaunch,
 };
