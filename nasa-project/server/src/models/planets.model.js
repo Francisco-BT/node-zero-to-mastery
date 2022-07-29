@@ -2,14 +2,14 @@ const { parse } = require('csv-parse');
 const fs = require('fs');
 const path = require('path');
 
-const plannets = require('./planets.mongo');
+const planets = require('./planets.mongo');
 
-function isHabitablePlanet(plannet) {
+function isHabitablePlanet(planet) {
   return (
-    plannet['koi_disposition'] === 'CONFIRMED' &&
-    plannet['koi_insol'] > 0.36 &&
-    plannet['koi_insol'] < 1.11 &&
-    plannet['koi_prad'] < 1.6
+    planet['koi_disposition'] === 'CONFIRMED' &&
+    planet['koi_insol'] > 0.36 &&
+    planet['koi_insol'] < 1.11 &&
+    planet['koi_prad'] < 1.6
   );
 }
 
@@ -26,7 +26,7 @@ function loadPlanetsData() {
       )
       .on('data', async (data) => {
         if (isHabitablePlanet(data)) {
-          await savePlannet(data);
+          await savePlanet(data);
         }
       })
       .on('error', (err) => {
@@ -40,18 +40,24 @@ function loadPlanetsData() {
   });
 }
 
-function getAllPlanets() {
-  return plannets.find({});
+async function getAllPlanets() {
+  return await planets.find(
+    {},
+    {
+      __v: 0,
+      _id: 0,
+    },
+  );
 }
 
-async function savePlannet(plannet) {
+async function savePlanet(planet) {
   try {
-    await plannets.findOneAndUpdate(
+    await planets.findOneAndUpdate(
       {
-        keplerName: plannet.kepler_name,
+        keplerName: planet.kepler_name,
       },
       {
-        keplerName: plannet.keplerName,
+        keplerName: planet.keplerName,
       },
       { upsert: true },
     );

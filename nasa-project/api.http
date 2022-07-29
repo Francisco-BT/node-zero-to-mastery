@@ -14,3 +14,7 @@ Content-Type: application/json
 
 ### Abort a launch
 DELETE http://localhost:8000/launches/100
+
+
+### Get plannets
+GET http://localhost:8000/planets

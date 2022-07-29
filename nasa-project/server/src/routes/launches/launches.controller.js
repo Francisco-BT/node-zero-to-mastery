@@ -3,10 +3,10 @@ const {
   addNewLaunch,
   existLaunchWithId,
   abortLaunchById,
-} = require("../../models/launches.model");
+} = require('../../models/launches.model');
 
-function httpGetAllLaunches(req, res) {
-  res.status(200).json(getAllLaunches());
+async function httpGetAllLaunches(req, res) {
+  res.status(200).json(await getAllLaunches());
 }
 
 function httpAddNewLaunch(req, res) {
@@ -19,14 +19,14 @@ function httpAddNewLaunch(req, res) {
     !launch.target
   ) {
     return res.status(400).json({
-      error: "Missing require launch property",
+      error: 'Missing require launch property',
     });
   }
 
   launch.launchDate = new Date(launch.launchDate);
   if (isNaN(launch.launchDate)) {
     return res.status(400).json({
-      error: "Invalid launch date",
+      error: 'Invalid launch date',
     });
   }
 
@@ -39,7 +39,7 @@ function httpAbortLaunch(req, res) {
 
   if (!existLaunchWithId(id)) {
     return res.status(404).json({
-      message: "Launch not found",
+      message: 'Launch not found',
     });
   }
 
