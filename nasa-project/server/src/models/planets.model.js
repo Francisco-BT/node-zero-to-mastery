@@ -1,45 +1,63 @@
-const { parse } = require("csv-parse");
-const fs = require("fs");
-const path = require("path");
+const { parse } = require('csv-parse');
+const fs = require('fs');
+const path = require('path');
 
-const habitablePlanets = [];
+const plannets = require('./planets.mongo');
 
-function isHabitablePlanet(planet) {
+function isHabitablePlanet(plannet) {
   return (
-    planet["koi_disposition"] === "CONFIRMED" &&
-    planet["koi_insol"] > 0.36 &&
-    planet["koi_insol"] < 1.11 &&
-    planet["koi_prad"] < 1.6
+    plannet['koi_disposition'] === 'CONFIRMED' &&
+    plannet['koi_insol'] > 0.36 &&
+    plannet['koi_insol'] < 1.11 &&
+    plannet['koi_prad'] < 1.6
   );
 }
 
 function loadPlanetsData() {
   return new Promise((resolve, reject) => {
     fs.createReadStream(
-      path.join(__dirname, "..", "..", "data", "kepler_data.csv")
+      path.join(__dirname, '..', '..', 'data', 'kepler_data.csv'),
     )
       .pipe(
         parse({
-          comment: "#",
+          comment: '#',
           columns: true,
-        })
+        }),
       )
-      .on("data", (data) => {
+      .on('data', async (data) => {
         if (isHabitablePlanet(data)) {
-          habitablePlanets.push(data);
+          await savePlannet(data);
         }
       })
-      .on("error", (err) => {
+      .on('error', (err) => {
         return reject(err);
       })
-      .on("end", () => {
+      .on('end', async () => {
+        const countPlanetsFound = await getAllPlanets();
+        console.log(`${countPlanetsFound.length} habitable plannets found`);
         return resolve();
       });
   });
 }
 
 function getAllPlanets() {
-  return habitablePlanets;
+  return plannets.find({});
+}
+
+async function savePlannet(plannet) {
+  try {
+    await plannets.findOneAndUpdate(
+      {
+        keplerName: plannet.kepler_name,
+      },
+      {
+        keplerName: plannet.keplerName,
+      },
+      { upsert: true },
+    );
+  } catch (error) {
+    console.error(`Could not save plannet ${error}`);
+  }
 }
 
 module.exports = {
