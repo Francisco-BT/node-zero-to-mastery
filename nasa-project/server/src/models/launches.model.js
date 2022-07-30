@@ -52,7 +52,7 @@ async function abortLaunchById(launchId) {
     },
   );
 
-  return aborted.modifiedCount === 1 && aborted.matchedCount === 1;
+  return aborted.modifiedCount === 1;
 }
 
 async function saveLaunch(launch) {
