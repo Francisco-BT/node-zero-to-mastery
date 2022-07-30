@@ -1,12 +1,11 @@
 const launchesDatabase = require('./launches.mongo');
 const planets = require('./planets.mongo');
 
+const DEFAULT_FLIGHT_NUMBER = 1;
 const launches = new Map();
 
-let latestFlightNumber = 100;
-
 const launch = {
-  flightNumber: latestFlightNumber,
+  flightNumber: DEFAULT_FLIGHT_NUMBER,
   mission: 'Kepler Exploration X',
   rocket: 'Explorer IS1',
   launchDate: new Date('December 27, 2030'),
@@ -30,6 +29,16 @@ async function getAllLaunches() {
 function existLaunchWithId(launchId) {
   console.log(launches);
   return launches.has(launchId);
+}
+
+async function getLatestFlightNumber() {
+  const latestLaunch = await launchesDatabase.findOne({}).sort('-flightNumber');
+
+  if (!latestLaunch) {
+    return DEFAULT_FLIGHT_NUMBER;
+  }
+
+  return latestLaunch.flightNumber;
 }
 
 function abortLaunchById(launchId) {
@@ -58,7 +67,20 @@ async function saveLaunch(launch) {
   );
 }
 
+async function scheduleNewLaunch(launch) {
+  const newFlightNumeber = (await getLatestFlightNumber()) + 1;
+  const newLaunch = Object.assign(launch, {
+    success: true,
+    upcoming: true,
+    customer: ['Zero to Mastery', 'NASA'],
+    flightNumber: newFlightNumeber,
+  });
+
+  await saveLaunch(newLaunch);
+}
+
 module.exports = {
+  scheduleNewLaunch,
   existLaunchWithId,
   abortLaunchById,
   getAllLaunches,
