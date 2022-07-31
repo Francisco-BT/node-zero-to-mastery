@@ -12,15 +12,15 @@ describe('Launches API', () => {
     await mongoDisconnect();
   });
 
-  describe('Test GET /launches', () => {
+  describe('Test GET /v1/launches', () => {
     test('should respond with 200 success', async () => {
-      const response = await request(app).get('/launches');
+      const response = await request(app).get('/v1/launches');
       expect(response.status).toBe(200);
       expect(response.headers['content-type']).toContain('application/json');
     });
   });
 
-  describe('Test POST /launches', () => {
+  describe('Test POST /v1/launches', () => {
     const launchData = {
       mission: 'ZTM155',
       rocket: 'ZTM Experimental IS1',
@@ -29,7 +29,7 @@ describe('Launches API', () => {
     };
 
     test('should response with 201 created', async () => {
-      const response = await request(app).post('/launches').send(launchData);
+      const response = await request(app).post('/v1/launches').send(launchData);
 
       expect(response.status).toBe(201);
       expect(response.headers['content-type']).toContain('application/json');
@@ -41,7 +41,7 @@ describe('Launches API', () => {
 
     test('should catch missing required properties', async () => {
       const response = await request(app)
-        .post('/launches')
+        .post('/v1/launches')
         .send({
           ...launchData,
           rocket: undefined,
@@ -55,7 +55,7 @@ describe('Launches API', () => {
 
     test('should catch invalid dates', async () => {
       const response = await request(app)
-        .post('/launches')
+        .post('/v1/launches')
         .send({
           ...launchData,
           launchDate: 'invalid date',
