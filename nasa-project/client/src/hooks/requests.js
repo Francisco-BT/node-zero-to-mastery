@@ -1,4 +1,4 @@
-const API_URL = "http://localhost:8000";
+const API_URL = 'http://localhost:8000/v1';
 
 async function httpGetPlanets() {
   const response = await fetch(`${API_URL}/planets`);
@@ -16,10 +16,10 @@ async function httpGetLaunches() {
 async function httpSubmitLaunch(launch) {
   try {
     return await fetch(`${API_URL}/launches`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify(launch),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
   } catch (err) {
@@ -32,7 +32,7 @@ async function httpSubmitLaunch(launch) {
 async function httpAbortLaunch(id) {
   try {
     return await fetch(`${API_URL}/launches/${id}`, {
-      method: "DELETE",
+      method: 'DELETE',
     });
   } catch (err) {
     return {

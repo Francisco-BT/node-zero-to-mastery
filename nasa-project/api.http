@@ -1,8 +1,8 @@
 ### Get launches
-GET http://localhost:8000/launches
+GET http://localhost:8000/v1/launches
 
 ### Add a new launch
-POST http://localhost:8000/launches
+POST http://localhost:8000/v1/launches
 Content-Type: application/json
 
 {
@@ -13,8 +13,8 @@ Content-Type: application/json
 }
 
 ### Abort a launch
-DELETE http://localhost:8000/launches/3
+DELETE http://localhost:8000/vi/launches/3
 
 
 ### Get plannets
-GET http://localhost:8000/planets
+GET http://localhost:8000/v1/planets
