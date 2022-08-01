@@ -69,14 +69,18 @@ async function loadLaunchData() {
   }
 }
 
-async function getAllLaunches() {
-  return await launches.find(
-    {},
-    {
-      __v: 0,
-      _id: 0,
-    },
-  );
+async function getAllLaunches(skip, limit) {
+  return await launches
+    .find(
+      {},
+      {
+        __v: 0,
+        _id: 0,
+      },
+    )
+    .sort({ flightNumber: 1 })
+    .skip(skip)
+    .limit(limit);
 }
 
 async function findLaunch(filter) {
