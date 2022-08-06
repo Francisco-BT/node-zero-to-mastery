@@ -31,10 +31,10 @@ function verifyCallback(accessToken, refreshToken, profile, done) {
 
 passport.use(new Strategy(AUTH_OPTIONS, verifyCallback));
 passport.serializeUser((user, done) => {
-  done(null, user);
+  done(null, user.id);
 });
-passport.deserializeUser((obj, done) => {
-  done(null, obj);
+passport.deserializeUser((id, done) => {
+  done(null, id);
 });
 
 app.use(helmet());
@@ -46,10 +46,10 @@ app.use(
   })
 );
 app.use(passport.initialize());
+app.use(passport.session());
 
 function checkLoggedIn(req, res, next) {
-  const isLoggedIn = true;
-  if (!isLoggedIn) {
+  if (!req.isAuthenticated() && !req.user) {
     return res.status(401).json({
       error: "You must log in!",
     });
