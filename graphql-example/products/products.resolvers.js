@@ -9,7 +9,7 @@ module.exports = {
       const { minPrice, maxPrice } = args;
       return productsModel.getProductsByPrice(minPrice, maxPrice);
     },
-    productById: (_, args) => {
+    product: (_, args) => {
       const { id } = args;
       return productsModel.getProductById(id);
     },

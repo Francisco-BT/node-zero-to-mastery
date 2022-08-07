@@ -1,11 +1,11 @@
 type Query {
   products: [Product]
   productsByPrice(minPrice: Float!, maxPrice: Float!): [Product]
-  productById(id: String!): Product
+  product(id: ID!): Product
 }
 
 type Product {
-  description: String!
+  description: ID!
   price: Float!
   reviews: [Review]
 }
