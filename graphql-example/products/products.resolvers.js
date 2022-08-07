@@ -5,5 +5,13 @@ module.exports = {
     products: () => {
       return productsModel.getAllProducts();
     },
+    productsByPrice: (_, args) => {
+      const { minPrice, maxPrice } = args;
+      return productsModel.getProductsByPrice(minPrice, maxPrice);
+    },
+    productById: (_, args) => {
+      const { id } = args;
+      return productsModel.getProductById(id);
+    },
   },
 };
