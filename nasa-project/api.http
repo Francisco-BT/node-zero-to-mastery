@@ -1,5 +1,5 @@
 ### Get launches
-GET http://localhost:8000/v1/launches
+GET http://localhost:8000/v1/launches?page=1&limit=50
 
 ### Add a new launch
 POST http://localhost:8000/v1/launches
